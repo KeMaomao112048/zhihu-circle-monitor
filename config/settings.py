@@ -22,6 +22,7 @@ FULL_URL_COMMENT_LIST = BASE_URL + API_URL_COMMENT_LIST
 # AI 配置
 AI_BASE_URL = os.getenv("AI_BASE_URL")
 AI_MODEL_NAME = os.getenv("AI_MODEL_NAME")
+AI_API_KEY = os.getenv("AI_API_KEY")
 
 
 from typing import Dict, List

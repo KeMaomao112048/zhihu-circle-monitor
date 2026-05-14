@@ -1,6 +1,6 @@
 import requests
 import json
-from config.settings import AI_BASE_URL, AI_MODEL_NAME
+from config.settings import AI_BASE_URL, AI_MODEL_NAME,AI_API_KEY
 from utils.logger import logger
 from router.api import publish_comment
 from utils.output_queue import stream_print
@@ -8,8 +8,7 @@ REPLIED_COMMENTS = set()
 
 
 def call_local_ai_stream(messages):
-    url = f"{AI_BASE_URL}/v1/chat/completions"
-
+    url  = f"{AI_BASE_URL}/chat/completions"
     payload = {
         "model": AI_MODEL_NAME,
         "messages": messages,
@@ -17,10 +16,13 @@ def call_local_ai_stream(messages):
         "max_tokens": 2048,
         "stream": True
     }
-
+    headers = {
+        "Authorization": f"Bearer {AI_API_KEY}",
+        "Content-Type": "application/json"
+    }
     try:
         SESSION = requests.Session()
-        response = SESSION.post(url, json=payload, stream=True)
+        response = SESSION.post(url, json=payload, headers=headers,stream=True)
         for line in response.iter_lines():
             if line:
                 line = line.decode("utf-8")
